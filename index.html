@@ -893,10 +893,10 @@ function setupEditFocusHighlights() {
 
 
 function makeNewspaper() {
-  const sublogo = document.getElementById("sublogoInput").value.trim() || "就学旅行速報";
+  const sublogo = document.getElementById("sublogoInput").value.trim() || "第50回大会記念新聞";
   const headline = document.getElementById("headlineInput").value.trim() || "白球追って 全力プレー";
   const article = document.getElementById("articleInput").value.trim() ||
-    "５月９日、〇〇中学校３年生が、修学旅行で広島を訪れ、世界遺産の宮島へ行きました。班行動では友だちと協力しながらお土産を選び、名物のもみじ饅頭も味わいました。歴史や文化にふれ、忘れられない思い出ができた特別な一日になりました。。";
+    "２０２５年７月１２日、第５０回呉地区少年ソフトボール大会が行われました。参加した子どもたちは、暑さに負けず、仲間と声をかけ合いながら全力でプレーしました。";
   const dateRaw = document.getElementById("dateInput").value;
   const reporter = document.getElementById("reporterInput").value.trim() || "記者 家族";
 
@@ -1465,8 +1465,8 @@ function pickBestShortHeadline(words, original) {
 function addArticleHint() {
   const textarea = document.getElementById("editArticle");
   const current = textarea.value.trim();
-  const addText = " 家族みんなが見守る中、一生懸命な姿に大きな拍手が送られました。小さな成長が、忘れられない思い出になりました。";
-  textarea.value = current.length < 60 ? current + addText : current + " この日の出来事は、生徒たちにとって大切な記念になりました。";
+  const addText = " 試合では、力強いバッティングやすばやい守備、最後まで走りぬく姿に大きな拍手が送られました。勝ち負けだけでなく、チームで助け合うことや、最後まであきらめない大切さを学ぶ一日になりました。";
+  textarea.value = current.length < 60 ? current + addText : current + " この日の出来事は、選手たちにとって大切な記念になりました。";
   updatePreviewText();
 }
 
