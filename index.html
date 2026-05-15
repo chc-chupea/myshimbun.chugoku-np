@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>中国新聞 My新聞</title>
+<title>中国新聞 My新聞づくり</title>
 <style>
 * { box-sizing: border-box; }
 body {
@@ -522,8 +522,8 @@ button { border: none; background: #111; color: #fff; font-weight: bold; cursor:
 </style>
 </head>
 <body>
-<h1>中国新聞 My新聞</h1>
-<p class="lead">①写真 → ②サブ題字 → ③見出し → ④記事 → ⑤日にち → ⑥記者名の順番で入力すると、新聞風の記念紙面が作れます。</p>
+<h1>中国新聞 My新聞づくり</h1>
+<p class="lead">大会の写真・見出し・記事を入力して、自分だけの新聞を作りましょう。試合で見たこと、感じたこと、仲間のがんばりを書いてください。</p>
 <section class="step active" id="step1">
 <h2>① 写真を選ぼう</h2>
 <p>新聞に使いたい写真を選んでください。</p>
@@ -533,23 +533,23 @@ button { border: none; background: #111; color: #fff; font-weight: bold; cursor:
 <section class="step" id="step2">
 <h2>② サブ題字をきめよう</h2>
 <p>あなただけの「自由な新聞名」にできます。長い時は自動改行されます。あとからEnterで改行位置も直せます。</p>
-<div class="hint">例：修学旅行速報<br/>例：七五三記念新聞<br/>例：わが家ニュース<br/>例：卒業記念特別号</div>
-<textarea id="sublogoInput" placeholder="例：修学旅行速報"></textarea>
+<div class="hint">例：第50回大会記念新聞<br/>例：呉地区ソフトボール新聞<br/>例：全力プレー特別号</div>
+<textarea id="sublogoInput" placeholder="例：第50回大会記念新聞"></textarea>
 <button class="backBtn" onclick="nextStep(1)">戻る</button>
 <button onclick="nextStep(3)">次へ</button>
 </section>
 <section class="step" id="step3">
 <h2>③ 見出しをきめよう</h2>
 <p>写真を見た人が「読んでみたい」と思う短いタイトルにしましょう。</p>
-<div class="hint">例：宮島に響く 笑顔と歓声<br/>例：はじめてのハイハイ大成功<br/>例：家族みんなで楽しい一日</div>
+<div class="hint">例：白球追って 全力プレー<br/>例：仲間とつないだ一球<br/>例：笑顔で終えた記念大会</div>
 <input id="headlineInput" placeholder="見出しを入力"/>
 <button class="backBtn" onclick="nextStep(2)">戻る</button>
 <button onclick="nextStep(4)">次へ</button>
 </section>
 <section class="step" id="step4">
 <h2>④ 記事を書こう</h2>
-<p>「いつ・どこで・だれが・なにをした・どう感じた」を入れると新聞らしくなります。改行すると段落ごとに先頭が一字下がります。句読点は縦書きルールに合わせて右上に配置します。</p>
-<div class="hint">例：５月９日、〇〇中学校３年生が、修学旅行で広島を訪れ、世界遺産の宮島へ行きました。<br/>班行動では友だちと協力しながらお土産を選び、名物のもみじ饅頭も味わいました。<br/>歴史や文化にふれ、忘れられない思い出ができた特別な一日になりました。</div>
+<p>「いつ・どこで・どんな大会があり、だれが、どんなプレーをして、何を感じたか」を書くと新聞らしくなります。紙面では「ボール」などの長音を縦書き用に整え、12日・５０回などの2桁数字は横向き1マス表示します。</p>
+<div class="hint">２０２５年７月１２日、第５０回呉地区少年ソフトボール大会が行われました。参加した子どもたちは、暑さに負けず、仲間と声をかけ合いながら全力でプレーしました。<br/><br/><br/><br/>試合では、力強いバッティングやすばやい守備、最後まで走りぬく姿に大きな拍手が送られました。勝ち負けだけでなく、チームで助け合うことや、最後まであきらめない大切さを学ぶ一日になりました。</div>
 <textarea id="articleInput" placeholder="記事本文を入力"></textarea>
 <button class="backBtn" onclick="nextStep(3)">戻る</button>
 <button onclick="nextStep(5)">次へ</button>
@@ -557,7 +557,7 @@ button { border: none; background: #111; color: #fff; font-weight: bold; cursor:
 <section class="step" id="step5">
 <h2>⑤ 日にちを入れよう</h2>
 <p>写真を撮った日、または記念日を入れてください。</p>
-<input id="dateInput" type="date"/>
+<input id="dateInput" type="date" value="2025-07-12"/>
 <button class="backBtn" onclick="nextStep(4)">戻る</button>
 <button onclick="nextStep(6)">次へ</button>
 </section>
@@ -576,7 +576,7 @@ button { border: none; background: #111; color: #fff; font-weight: bold; cursor:
 <details class="editSection" open="">
 <summary>サブ題字</summary>
 <label for="editSublogo"></label>
-<textarea id="editSublogo" oninput="updatePreviewText()" placeholder="例：修学旅行速報"></textarea>
+<textarea id="editSublogo" oninput="updatePreviewText()" placeholder="例：第50回大会記念新聞"></textarea>
 <div class="sublogoCount" id="sublogoCount">目安：8文字くらいまで。長い場合は自動改行・自動縮小します。</div>
 </details>
 <details class="editSection">
@@ -632,7 +632,7 @@ button { border: none; background: #111; color: #fff; font-weight: bold; cursor:
 </div>
 <div class="paper-grid">
 <main class="main">
-<div class="headline" id="outHeadline">宮島に響く 笑顔と歓声</div>
+<div class="headline" id="outHeadline">白球追って 全力プレー</div>
 <div aria-label="写真配置エリア" class="photoFrame" id="photoFrame" tabindex="0">
 <img alt="記念写真" id="previewPhoto"/>
 <div class="photoGuide" id="photoGuide">写真を動かせます。1本指・マウスで移動、2本指で拡大縮小・回転。</div>
@@ -642,8 +642,8 @@ button { border: none; background: #111; color: #fff; font-weight: bold; cursor:
 <div class="bottomAd">
 <div class="bottomAdLabel">保存版</div>
 <div class="bottomAdText">
-<div class="bottomAdMain">特別な思い出を新聞に。</div>
-<div class="bottomAdSub">写真・見出し・記事で作る、世界に一枚のMy新聞。</div>
+<div class="bottomAdMain">大会の思い出を新聞に。</div>
+<div class="bottomAdSub">写真・見出し・記事で作る、自分だけの大会新聞。</div>
 </div>
 </div>
 </main>
@@ -652,7 +652,7 @@ button { border: none; background: #111; color: #fff; font-weight: bold; cursor:
 <div class="sublogo" id="outSublogo"><span class="sublogoInner" id="outSublogoInner">My<br/>記念新聞</span></div>
 <div class="dateBox" id="outDate">月日（曜日）</div>
 <div class="infoBox">
-          発行所<br/>中国新聞 My新聞編集部<br/>
+          発行所<br/>中国新聞 My新聞づくり編集部<br/>
 <div class="reporterBox" id="outReporter">記者 家族</div>
 </div>
 </aside>
@@ -837,9 +837,9 @@ function setupEditFocusHighlights() {
 
 function makeNewspaper() {
   const sublogo = document.getElementById("sublogoInput").value.trim() || "就学旅行速報";
-  const headline = document.getElementById("headlineInput").value.trim() || "宮島に響く 笑顔と歓声";
+  const headline = document.getElementById("headlineInput").value.trim() || "白球追って 全力プレー";
   const article = document.getElementById("articleInput").value.trim() ||
-    "５月９日、〇〇中学校３年生が、修学旅行で広島を訪れ、世界遺産の宮島へ行きました。班行動では友だちと協力しながらお土産を選び、名物のもみじ饅頭も味わいました。歴史や文化にふれ、有意義な学びになりました。";
+    "５月９日、〇〇中学校３年生が、修学旅行で広島を訪れ、世界遺産の宮島へ行きました。班行動では友だちと協力しながらお土産を選び、名物のもみじ饅頭も味わいました。歴史や文化にふれ、忘れられない思い出ができた特別な一日になりました。。";
   const dateRaw = document.getElementById("dateInput").value;
   const reporter = document.getElementById("reporterInput").value.trim() || "記者 家族";
 
@@ -935,6 +935,68 @@ function measureVerticalArticle(chars, fontSize, lineGap, colGap, maxH) {
   const colCount = Math.max(1, Math.ceil(chars.length / charsPerCol));
   const needW = colCount * fontSize + Math.max(0, colCount - 1) * colGap;
   return { charsPerCol, colCount, needW, lineHeight };
+}
+
+
+
+
+
+
+
+function toHalfWidthNumberText(text) {
+  return text.replace(/[０-９]/g, s =>
+    String.fromCharCode(s.charCodeAt(0) - 65248)
+  );
+}
+
+function isDigitChar(ch) {
+  return /^[0-9０-９]$/.test(ch);
+}
+
+function shouldDrawTwoDigitHorizontal(chars, i) {
+  if (!chars[i] || !chars[i + 1]) return false;
+
+  // 今の文字と次の文字が数字
+  if (!isDigitChar(chars[i]) || !isDigitChar(chars[i + 1])) return false;
+
+  // 直前も数字なら、3桁以上の途中なので対象外
+  if (i > 0 && isDigitChar(chars[i - 1])) return false;
+
+  // 2文字後も数字なら、3桁以上なので対象外
+  if (chars[i + 2] && isDigitChar(chars[i + 2])) return false;
+
+  return true;
+}
+
+function drawTwoDigitHorizontal(ctx, chars, i, x, y, fontSize) {
+  const numText = toHalfWidthNumberText(chars[i] + chars[i + 1]);
+
+  ctx.save();
+
+  ctx.font = "700 " + (fontSize * 0.72) + 'px "Hiragino Mincho ProN", "Yu Mincho", "MS Mincho", serif';
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  // 1文字マスの中央に横向き2桁を置く
+  ctx.fillText(
+    numText,
+    x,
+    y + fontSize * 0.48
+  );
+
+  ctx.restore();
+}
+
+function normalizeVerticalChar(ch) {
+  const map = {
+    "ー": "｜",
+    "－": "｜",
+    "―": "｜",
+    "ｰ": "｜",
+    "〜": "｜",
+    "～": "｜"
+  };
+  return map[ch] || ch;
 }
 
 
@@ -1069,7 +1131,7 @@ function drawArticleCanvas() {
   let row = 0;
 
   for (let i = 0; i < chars.length; i++) {
-    const ch = chars[i];
+    let ch = chars[i];
 
     if (ch === "\n") {
       col += 1;
@@ -1096,6 +1158,18 @@ function drawArticleCanvas() {
     const y = padY + row * m.lineHeight;
 
     if (x < padX - fontSize) break;
+
+    // 縦中横：2桁数字だけ横向きで1マスに描く
+    // 例：12日、５０回。3桁以上の2025などは対象外
+    if (shouldDrawTwoDigitHorizontal(chars, i)) {
+      drawTwoDigitHorizontal(ctx, chars, i, x, y, fontSize);
+      i++;
+      row += 1;
+      continue;
+    }
+
+    // 縦書き用：長音「ー」などを縦棒に置換して表示
+    ch = normalizeVerticalChar(ch);
 
     if (getVerticalPunctuation(ch)) {
       drawVerticalPunctuation(ctx, ch, x, y, fontSize);
@@ -1327,7 +1401,7 @@ function addArticleHint() {
   const textarea = document.getElementById("editArticle");
   const current = textarea.value.trim();
   const addText = " 家族みんなが見守る中、一生懸命な姿に大きな拍手が送られました。小さな成長が、忘れられない思い出になりました。";
-  textarea.value = current.length < 60 ? current + addText : current + " この日の出来事は、生徒たちにとって大切な記念になりました。";
+  textarea.value = current.length < 60 ? current + addText : current + " この日の出来事は、選手たちにとって大切な記念になりました。";
   updatePreviewText();
 }
 
