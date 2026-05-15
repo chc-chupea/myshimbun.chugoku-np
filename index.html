@@ -519,6 +519,11 @@ button { border: none; background: #111; color: #fff; font-weight: bold; cursor:
   text-overflow: ellipsis;
 }
 
+
+#photoStatus {
+  margin-top: 8px;
+  line-height: 1.6;
+}
 </style>
 </head>
 <body>
@@ -528,6 +533,7 @@ button { border: none; background: #111; color: #fff; font-weight: bold; cursor:
 <h2>① 写真を選ぼう</h2>
 <p>新聞に使いたい写真を選んでください。</p>
 <input accept="image/*" id="photoInput" type="file"/>
+<div id="photoStatus" class="countLine">写真を選ぶと、紙面プレビューに反映されます。</div>
 <button onclick="nextStep(2)">次へ</button>
 </section>
 <section class="step" id="step2">
@@ -664,6 +670,7 @@ button { border: none; background: #111; color: #fff; font-weight: bold; cursor:
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 <script>
 let photoData = "";
+let photoObjectUrl = "";
 let headlineShortLevel = 0;
 let photoState = { x: 0, y: 0, scale: 1, rotate: 0 };
 let activePointers = new Map();
@@ -687,9 +694,59 @@ function nextStep(num) {
 
 document.getElementById("photoInput").addEventListener("change", function(e) {
   const file = e.target.files[0];
+  const status = document.getElementById("photoStatus");
+
   if (!file) return;
+
+  // 前のblob URLを解放
+  if (photoObjectUrl) {
+    URL.revokeObjectURL(photoObjectUrl);
+    photoObjectUrl = "";
+  }
+
+  // まずblob URLで即時表示する。GitHub Pagesでも反映が速く安定する。
+  photoObjectUrl = URL.createObjectURL(file);
+  photoData = photoObjectUrl;
+
+  const preview = document.getElementById("previewPhoto");
+  if (preview) {
+    preview.src = photoObjectUrl;
+    preview.onload = function() {
+      applyPhotoTransform();
+    };
+  }
+
+  if (status) {
+    status.innerText = "写真を読み込みました。次へ進んでください。";
+  }
+
+  // 保存・PDF用に、裏側でDataURL化しておく
   const reader = new FileReader();
-  reader.onload = function(event) { photoData = event.target.result; };
+
+  reader.onload = function(event) {
+    photoData = event.target.result;
+
+    // すでに紙面表示中ならDataURLへ差し替える
+    const currentPreview = document.getElementById("previewPhoto");
+    if (currentPreview) {
+      currentPreview.src = photoData;
+      currentPreview.onload = function() {
+        applyPhotoTransform();
+      };
+    }
+
+    if (status) {
+      status.innerText = "写真の準備が完了しました。";
+    }
+  };
+
+  reader.onerror = function() {
+    console.warn("FileReader failed. Blob preview is still available.");
+    if (status) {
+      status.innerText = "写真は表示できますが、保存時に失敗する場合があります。別の写真もお試しください。";
+    }
+  };
+
   reader.readAsDataURL(file);
 });
 
@@ -849,8 +906,16 @@ function makeNewspaper() {
   document.getElementById("editDate").value = dateRaw;
   document.getElementById("editReporter").value = reporter;
 
-  if (photoData) photo.src = photoData;
-  else photo.removeAttribute("src");
+  if (photoData) {
+    photo.src = photoData;
+    photo.onload = function() {
+      applyPhotoTransform();
+    };
+  } else {
+    photo.removeAttribute("src");
+    const status = document.getElementById("photoStatus");
+    if (status) status.innerText = "写真が未選択です。写真なしでも新聞は作れます。";
+  }
 
   resetPhotoPosition();
   updatePreviewText();
@@ -1401,7 +1466,7 @@ function addArticleHint() {
   const textarea = document.getElementById("editArticle");
   const current = textarea.value.trim();
   const addText = " 家族みんなが見守る中、一生懸命な姿に大きな拍手が送られました。小さな成長が、忘れられない思い出になりました。";
-  textarea.value = current.length < 60 ? current + addText : current + " この日の出来事は、選手たちにとって大切な記念になりました。";
+  textarea.value = current.length < 60 ? current + addText : current + " この日の出来事は、生徒たちにとって大切な記念になりました。";
   updatePreviewText();
 }
 
