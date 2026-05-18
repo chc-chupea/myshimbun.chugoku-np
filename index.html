@@ -597,328 +597,72 @@ button { border: none; background: #111; color: #fff; font-weight: bold; cursor:
 }
 
 
-/* ===== 編集画面用：HTML縦書き記事表示 ===== */
-.article {
-  width: 100%;
-  height: 176px;
-  overflow: hidden;
-  padding: 6px 8px;
-  position: relative;
-}
-
-.articleHtmlText {
-  width: 100%;
-  height: 100%;
-  writing-mode: vertical-rl;
-  text-orientation: upright;
-  direction: ltr;
-  column-fill: auto;
-  overflow: hidden;
-  font-family: "Hiragino Mincho ProN", "Yu Mincho", "MS Mincho", serif;
-  font-weight: 700;
-  font-size: var(--article-html-font-size, 18px);
-  line-height: var(--article-html-line-height, 1.95);
-  letter-spacing: var(--article-html-letter-spacing, 0.09em);
-  white-space: pre-wrap;
-  word-break: break-all;
-  color: #111;
-}
-
-.articleHtmlText .tcy {
-  writing-mode: horizontal-tb;
-  text-orientation: mixed;
-  display: inline-block;
-  font-size: 0.78em;
-  line-height: 1;
-  letter-spacing: 0;
-  vertical-align: middle;
-}
-
-.articleHtmlText .indent {
-  display: inline-block;
-  height: 1em;
-}
-
+/* ===== 記事canvas高解像度表示 ===== */
 #articleCanvas {
-  display: none;
+  image-rendering: auto !important;
+  text-rendering: geometricPrecision;
+  transform: translateZ(0);
 }
 
-.article.exportCanvasMode {
-  padding: 0;
-}
-
-.article.exportCanvasMode .articleHtmlText {
-  display: none;
-}
-
-.article.exportCanvasMode #articleCanvas {
-  display: block;
-  width: 100%;
-  height: 176px;
-  background: #fff;
+#newspaper canvas {
+  image-rendering: auto !important;
 }
 
 
-/* ===== HTML縦書き：長音・2桁数字表示修正 ===== */
-.articleHtmlText .tcy {
-  writing-mode: horizontal-tb !important;
-  text-orientation: mixed !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 1em !important;
-  height: 1em !important;
-  font-size: 0.72em !important;
-  line-height: 1 !important;
-  letter-spacing: 0 !important;
-  vertical-align: middle !important;
-  transform: translateX(-0.06em);
+/* ===== 超高解像度記事canvas ===== */
+#articleCanvas {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  backface-visibility: hidden;
 }
 
-.articleHtmlText .longVowel {
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  text-align: center;
-  line-height: 1;
+canvas {
+  -webkit-font-smoothing: antialiased;
 }
 
 
-/* ===== HTML縦書き表示・確定修正：長音と2桁数字 ===== */
-.articleHtmlText {
-  text-orientation: upright !important;
+/* ===== 編集画面：写真選び直し ===== */
+.photoEditButtons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: calc(100% - 24px);
+  margin: 12px;
 }
 
-/* 長音はブラウザの縦書き解釈に任せず、縦棒を1マス中央に置く */
-.articleHtmlText .longVowel {
-  writing-mode: horizontal-tb !important;
-  text-orientation: mixed !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 1em !important;
-  height: 1em !important;
-  min-width: 1em !important;
-  min-height: 1em !important;
-  line-height: 1 !important;
-  letter-spacing: 0 !important;
-  vertical-align: middle !important;
-  font-size: 1em !important;
-  transform: translateX(-0.04em);
+.photoEditButtons button {
+  margin-top: 0;
+  font-size: 14px;
+  padding: 10px 6px;
 }
 
-/* 2桁数字は縦中横。1文字分のマスを確保して中央配置 */
-.articleHtmlText .tcy {
-  writing-mode: horizontal-tb !important;
-  text-orientation: mixed !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 1em !important;
-  height: 1em !important;
-  min-width: 1em !important;
-  min-height: 1em !important;
-  line-height: 1 !important;
-  letter-spacing: 0 !important;
-  vertical-align: middle !important;
-  font-size: 0.70em !important;
-  transform: translateX(-0.04em);
+.photoEditButtons .deletePhotoBtn {
+  background: #777;
+}
+
+.photoEditStatus {
+  width: calc(100% - 24px);
+  margin: 0 12px 12px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #555;
 }
 
 
-/* ===== 長音センター・2桁数字縦中横 最終補正 ===== */
-
-/* 長音は1文字分の箱の中央に置く */
-.articleHtmlText .longVowel {
-  writing-mode: horizontal-tb !important;
-  text-orientation: mixed !important;
-  display: inline-grid !important;
-  place-items: center !important;
-  width: 1em !important;
-  height: 1em !important;
-  min-width: 1em !important;
-  min-height: 1em !important;
-  line-height: 1 !important;
-  letter-spacing: 0 !important;
-  vertical-align: middle !important;
-  font-size: 0.95em !important;
-  transform: translateX(-0.18em) !important;
+/* ===== 写真選び直しボタン：単独表示 ===== */
+.photoEditButtons {
+  display: block !important;
+  grid-template-columns: none !important;
 }
 
-/* 2桁数字はCSS縦中横で1マス表示 */
-.articleHtmlText .tcy {
-  text-combine-upright: all !important;
-  -webkit-text-combine: horizontal !important;
-  text-orientation: mixed !important;
-  display: inline !important;
-  width: auto !important;
-  height: auto !important;
-  min-width: 0 !important;
-  min-height: 0 !important;
-  line-height: 1 !important;
-  letter-spacing: 0 !important;
-  font-size: 1em !important;
-  transform: none !important;
-  vertical-align: baseline !important;
-}
-
-
-/* ===== プレビュー安定版：横はみ出しだけ抑える ===== */
-
-/* PCは紙面を少しだけ縮小して、右端の題字まで見えるようにする */
-@media (min-width: 901px) {
-  #workspace {
-    max-width: 1280px;
-    gap: 16px;
-  }
-
-  #editorColumn {
-    flex: 0 0 430px;
-  }
-
-  #previewColumn {
-    flex: 1 1 auto;
-    min-width: 0;
-    overflow: visible;
-  }
-
-  #workspace #newspaperWrap {
-    overflow: visible;
-    display: block;
-    padding: 0 0 18px;
-  }
-
-  #previewColumn #newspaper {
-    transform: scale(0.88);
-    transform-origin: top center;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: -70px;
-  }
-}
-
-/* スマホは一枚全体を見せるため少し縮小。JSは使わない */
-@media (max-width: 900px) {
-  #previewColumn {
-    overflow: visible;
-  }
-
-  #previewColumn #newspaperWrap {
-    overflow: visible;
-    max-height: none;
-  }
-
-  #previewColumn #newspaper {
-    transform: scale(0.58);
-    transform-origin: top center;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: -320px;
-  }
-}
-
-@media (max-width: 420px) {
-  #previewColumn #newspaper {
-    transform: scale(0.53);
-    margin-bottom: -360px;
-  }
-}
-
-
-/* ===== 記事欄はみ出し防止 ===== */
-.articleBox {
-  overflow: hidden !important;
-  contain: layout paint;
-}
-
-.article {
-  overflow: hidden !important;
-  contain: layout paint;
-}
-
-.articleHtmlText {
-  overflow: hidden !important;
-  max-width: 100% !important;
-  max-height: 100% !important;
-  box-sizing: border-box !important;
-}
-
-.articleTooLongWarning {
-  margin-top: 4px;
-  padding: 4px 6px;
-  background: #c00000;
-  color: #fff;
-  font-size: 11px;
-  font-weight: 900;
-  border-radius: 4px;
-  font-family: "Hiragino Sans", "Yu Gothic", sans-serif;
-  display: none;
-}
-
-.article.tooLong .articleTooLongWarning {
-  display: block;
-}
-
-
-.article.exportCanvasMode .articleTooLongWarning {
-  display: none !important;
-}
-
-
-/* ===== 紙面右カラムはみ出し防止 ===== */
-#newspaper {
-  overflow: hidden !important;
-}
-
-.paper-grid {
-  display: grid !important;
-  grid-template-columns: minmax(0, 1fr) 112px !important;
-  gap: 8px !important;
-  overflow: hidden !important;
+.photoEditButtons button {
   width: 100% !important;
-  max-width: 100% !important;
+  margin-top: 0 !important;
+  background: #111;
 }
 
-.main {
-  min-width: 0 !important;
-  max-width: 100% !important;
-  overflow: hidden !important;
-  contain: layout paint;
-}
-
-.side {
-  width: 112px !important;
-  min-width: 112px !important;
-  max-width: 112px !important;
-  overflow: hidden !important;
-  box-sizing: border-box !important;
-}
-
-.logoImage,
-.sublogo,
-.dateBox,
-.infoBox,
-.reporterBox,
-.sideAd {
-  max-width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-.headline,
-.photoFrame,
-.caption,
-.articleBox,
-.bottomAd {
-  max-width: 100% !important;
-  box-sizing: border-box !important;
-  overflow: hidden !important;
-}
-
-/* 記事HTMLが横方向に紙面全体を押し広げないようにする */
-.articleHtmlText {
-  contain: layout paint;
-  inline-size: 100% !important;
-  block-size: 100% !important;
+.deletePhotoBtn {
+  display: none !important;
 }
 
 </style>
@@ -939,7 +683,7 @@ button { border: none; background: #111; color: #fff; font-weight: bold; cursor:
 <h2>① 写真を選ぼう</h2>
 <p>新聞に使いたい写真を選んでください。</p>
 <input accept="image/*" id="photoInput" type="file"/>
-<div id="photoStatus" class="countLine">写真を選ぶと、紙面プレビューに反映されます。</div>
+<div id="photoStatus" class="countLine">写真は、あとから編集画面で変更もできます</div>
 <button class="nextBtn" onclick="nextStep(2)">次へ</button>
 </section>
 <section class="step" id="step2">
@@ -963,7 +707,7 @@ button { border: none; background: #111; color: #fff; font-weight: bold; cursor:
 <section class="step" id="step4">
 <h2>④ 記事を書こう</h2>
 <p>「いつ・どこで・どんな大会があり、だれが、どんなプレーをして、何を感じたか」を書くと新聞らしくなります。</p>
-<div class="hint">２０２５年７月１２日、第５０回呉地区少年ソフトボール大会が行われました。参加した子どもたちは、暑さに負けず、仲間と声をかけ合いながら全力でプレーしました。<br/>試合では、力強いバッティングやすばやい守備、最後まで走りぬく姿に大きな拍手が送られました。勝ち負けだけでなく、チームで助け合うことや、最後まであきらめない大切さを学ぶ一日になりました。</div>
+<div class="hint">２０２５年７月１２日、第５０回呉地区少年ソフトボール大会が行われました。参加した子どもたちは、暑さに負けず、仲間と声をかけ合いながら全力でプレーしました。<br/>試合では、力強いバッティングやすばやい球さばき、最後まで走りぬく姿に大きな拍手が送られました。勝ち負けだけでなく、チームで助け合うことや、最後まであきらめない大切さを学ぶ一日になりました。</div>
 <textarea id="articleInput" placeholder="記事本文を入力"></textarea>
 <button class="nextBtn" onclick="nextStep(5)">次へ</button>
 <button class="backBtn" onclick="nextStep(3)">戻る</button>
@@ -988,7 +732,7 @@ button { border: none; background: #111; color: #fff; font-weight: bold; cursor:
 <div id="editorColumn"><div class="editPanel" id="editPanel">
 <h2>編集する</h2>
 <div class="miniHelp">
-    必要な項目だけ開いて編集できます。記事部分は編集中だけ読みやすいHTML文字で表示します。長音と2桁数字も縦書き用に整え、PDF保存時は高解像度で出力します。
+    必要な項目だけ開いて編集できます。
   </div>
 <details class="editSection" open="">
 <summary>サブ題字</summary>
@@ -1018,12 +762,12 @@ button { border: none; background: #111; color: #fff; font-weight: bold; cursor:
 <input id="editReporter" oninput="updatePreviewText()" placeholder="例：記者 〇〇"/>
 </details>
 <details class="editSection">
-<summary>写真移動</summary>
-<div class="miniHelp">
-      スマホ：1本指で移動／2本指で拡大・縮小・回転<br/>
-      マウス：写真上をドラッグで移動／ホイールで拡大・縮小<br/>
-      キーボード：写真枠を選んで、矢印＝移動、＋－＝拡大縮小、Q/E＝回転
-    </div>
+<summary>写真変更＆移動</summary>
+<div class="photoEditButtons">
+  <button type="button" onclick="reselectPhoto()">写真を選び直す</button>
+</div>
+<div class="photoEditStatus" id="editPhotoStatus">写真を変更したい時は「写真を選び直す」を押してください。下のボタンで位置を調整できます。</div>
+
 <div class="controlGrid">
 <button onclick="nudgePhoto(0,-10)">↑</button>
 <button onclick="changeScale(1.05)">拡大</button>
@@ -1037,7 +781,7 @@ button { border: none; background: #111; color: #fff; font-weight: bold; cursor:
 <button class="backBtn" onclick="resetPhotoPosition()">写真位置をリセット</button>
 </details>
 </div><div id="saveArea">
-<p class="notice">写真位置や文字を調整後に保存してください。「A4 PDFとして保存」はA4縦・高解像度で出力されます。処理に少し時間がかかる場合があります。</p>
+<p class="notice">文字や写真位置を調整したあとに保存してください。「A4 PDFとして保存」されます。処理に少し時間がかかる場合があります。</p>
 
 <button onclick="saveAsPDF()">A4 PDFとして保存</button>
 <button class="backBtn" onclick="resetForm()">最初から作り直す</button>
@@ -1052,10 +796,10 @@ button { border: none; background: #111; color: #fff; font-weight: bold; cursor:
 <div class="headline" id="outHeadline">白球追って 全力プレー</div>
 <div aria-label="写真配置エリア" class="photoFrame" id="photoFrame" tabindex="0">
 <img alt="記念写真" id="previewPhoto"/>
-<div class="photoGuide" id="photoGuide">写真を動かせます。1本指・マウスで移動、2本指で拡大縮小・回転。</div>
+<div class="photoGuide" id="photoGuide">マウスで写真を動かせます</div>
 </div>
 <div class="caption">思い出の一枚</div>
-<div class="articleBox"><div class="article" id="outArticle"><div class="articleHtmlText" id="articleHtmlText"></div><div class="articleTooLongWarning" id="articleTooLongWarning">記事が長すぎます。少し短くしてください。</div><canvas id="articleCanvas"></canvas></div></div>
+<div class="articleBox"><div class="article" id="outArticle"><canvas id="articleCanvas"></canvas></div></div>
 <div class="bottomAd">
 <div class="bottomAdLabel">保存版</div>
 <div class="bottomAdText">
@@ -1083,7 +827,7 @@ button { border: none; background: #111; color: #fff; font-weight: bold; cursor:
 let photoData = "";
 let photoObjectUrl = "";
 let headlineShortLevel = 0;
-let photoState = { x: 0, y: 0, scale: 1, rotate: 0 };
+let photoState = { x: 0, y: 0, scale: 7, rotate: 0 };
 let activePointers = new Map();
 let dragStart = null;
 let pinchStart = null;
@@ -1119,6 +863,9 @@ document.getElementById("photoInput").addEventListener("change", function(e) {
   photoObjectUrl = URL.createObjectURL(file);
   photoData = photoObjectUrl;
 
+  // 写真変更時は位置を初期化
+  resetPhotoPosition();
+
   const preview = document.getElementById("previewPhoto");
   if (preview) {
     preview.src = photoObjectUrl;
@@ -1129,6 +876,8 @@ document.getElementById("photoInput").addEventListener("change", function(e) {
 
   if (status) {
     status.innerText = "写真を読み込みました。次へ進んでください。";
+    const editStatus = document.getElementById("editPhotoStatus");
+    if (editStatus) editStatus.innerText = "写真を読み込みました。";
   }
 
   // 保存・PDF用に、裏側でDataURL化しておく
@@ -1148,6 +897,8 @@ document.getElementById("photoInput").addEventListener("change", function(e) {
 
     if (status) {
       status.innerText = "写真の準備が完了しました。";
+      const editStatus = document.getElementById("editPhotoStatus");
+      if (editStatus) editStatus.innerText = "写真を変更しました。位置を調整できます。";
     }
   };
 
@@ -1359,219 +1110,11 @@ function updatePreviewText() {
 }
 
 
-
-function escapeHtmlText(str) {
-  return String(str || "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
-
-function toHalfWidthDigits(str) {
-  return String(str || "").replace(/[０-９]/g, s =>
-    String.fromCharCode(s.charCodeAt(0) - 65248)
-  );
-}
-
-function normalizeArticleForVerticalHtml(text) {
-  return String(text || "")
-    .replace(/[ー－―ｰ〜～]/g, "｜");
-}
-
-function buildVerticalHtmlArticle(text) {
-  const raw = String(text || "記事本文が入ります。")
-    .replace(/\r\n/g, "\n")
-    .replace(/\r/g, "\n");
-
-  const lines = raw.split("\n");
-  const htmlParts = [];
-
-  const isDigit = ch => /^[0-9０-９]$/.test(ch || "");
-  const toHalf = str => String(str || "").replace(/[０-９]/g, s =>
-    String.fromCharCode(s.charCodeAt(0) - 65248)
-  );
-
-  // 長音・波ダッシュ類。見た目は縦棒に統一する
-  const isLongVowel = ch => /[ー－―ｰ〜～]/.test(ch || "");
-
-  lines.forEach((line, lineIndex) => {
-    const trimmed = line.trim();
-
-    if (!trimmed) {
-      htmlParts.push("<br>");
-      return;
-    }
-
-    if (lineIndex > 0) {
-      htmlParts.push("<br>");
-    }
-
-    // 段落頭の一字下げ
-    htmlParts.push('<span class="indent">&nbsp;</span>');
-
-    const chars = Array.from(trimmed);
-
-    for (let i = 0; i < chars.length; i++) {
-      const current = chars[i];
-      const next = chars[i + 1];
-      const prev = chars[i - 1];
-      const afterNext = chars[i + 2];
-
-      // 2桁だけ縦中横。3桁以上は通常どおり縦に並べる。
-      if (
-        isDigit(current) &&
-        isDigit(next) &&
-        !isDigit(prev) &&
-        !isDigit(afterNext)
-      ) {
-        htmlParts.push('<span class="tcy">' + escapeHtmlText(toHalf(current + next)) + '</span>');
-        i += 1;
-        continue;
-      }
-
-      // 長音は横棒ではなく、縦棒を1マス中央に置く
-      if (isLongVowel(current)) {
-        htmlParts.push('<span class="longVowel">│</span>');
-        continue;
-      }
-
-      htmlParts.push(escapeHtmlText(current));
-    }
-  });
-
-  return htmlParts.join("");
-}
-
-function drawArticleHtmlPreview(text) {
-  const articleEl = document.getElementById("outArticle");
-  const htmlText = document.getElementById("articleHtmlText");
-  const countEl = document.getElementById("articleCount");
-  if (!articleEl || !htmlText) return;
-
-  const rawText = text || articleEl.dataset.rawText || "記事本文が入ります。";
-  articleEl.dataset.rawText = rawText;
-
-  articleEl.classList.remove("exportCanvasMode");
-  articleEl.classList.remove("tooLong");
-
-  htmlText.innerHTML = buildVerticalHtmlArticle(rawText);
-
-  const plainLength = rawText.replace(/\s/g, "").length;
-
-  // まず子ども・保護者向けに大きめから開始
-  let fontSize = 20;
-  let lineHeight = 1.95;
-  let letterSpacing = "0.08em";
-
-  if (plainLength <= 60) {
-    fontSize = 23;
-    lineHeight = 2.10;
-    letterSpacing = "0.12em";
-  } else if (plainLength <= 110) {
-    fontSize = 21;
-    lineHeight = 2.00;
-    letterSpacing = "0.10em";
-  } else if (plainLength <= 160) {
-    fontSize = 18;
-    lineHeight = 1.85;
-    letterSpacing = "0.06em";
-  } else if (plainLength <= 220) {
-    fontSize = 15;
-    lineHeight = 1.65;
-    letterSpacing = "0.03em";
-  } else {
-    fontSize = 13;
-    lineHeight = 1.45;
-    letterSpacing = "0";
-  }
-
-  function applyArticleSize(size, lh, ls) {
-    articleEl.style.setProperty("--article-html-font-size", size + "px");
-    articleEl.style.setProperty("--article-html-line-height", String(lh));
-    articleEl.style.setProperty("--article-html-letter-spacing", ls);
-  }
-
-  applyArticleSize(fontSize, lineHeight, letterSpacing);
-
-  // 実際の表示枠からはみ出す場合は、段階的に縮小する
-  let currentSize = fontSize;
-  let currentLineHeight = lineHeight;
-  let currentLetterSpacing = letterSpacing;
-
-  const minSize = 10;
-  let guard = 0;
-
-  while (
-    guard < 40 &&
-    (htmlText.scrollWidth > htmlText.clientWidth + 2 || htmlText.scrollHeight > htmlText.clientHeight + 2) &&
-    currentSize > minSize
-  ) {
-    currentSize -= 1;
-    currentLineHeight = Math.max(1.22, currentLineHeight - 0.06);
-
-    if (currentSize <= 15) {
-      currentLetterSpacing = "0";
-    }
-
-    applyArticleSize(currentSize, currentLineHeight, currentLetterSpacing);
-    guard += 1;
-  }
-
-  const stillOverflow =
-    htmlText.scrollWidth > htmlText.clientWidth + 2 ||
-    htmlText.scrollHeight > htmlText.clientHeight + 2;
-
-  if (stillOverflow) {
-    articleEl.classList.add("tooLong");
-  }
-
-  if (countEl) {
-    if (stillOverflow) {
-      countEl.innerHTML =
-        '<span class="strongWarn">現在 ' + plainLength +
-        '文字：記事が長すぎます。少し短くすると紙面がきれいに収まります。</span>';
-    } else if (plainLength <= 110) {
-      countEl.innerHTML =
-        '現在 ' + plainLength + '文字：読みやすい大きさで表示しています。';
-    } else if (plainLength <= 180) {
-      countEl.innerHTML =
-        '現在 ' + plainLength + '文字：紙面に収まるよう自動調整しています。';
-    } else {
-      countEl.innerHTML =
-        '<span class="warn">現在 ' + plainLength +
-        '文字：長めです。自動縮小しています。</span>';
-    }
-  }
-}
-
-function switchArticleToCanvasForExport() {
-  const articleEl = document.getElementById("outArticle");
-  const canvas = document.getElementById("articleCanvas");
-  if (!articleEl || !canvas) return;
-
-  articleEl.classList.add("exportCanvasMode");
-
-  if (typeof drawArticleCanvas === "function") {
-    drawArticleCanvas();
-  }
-}
-
-function restoreArticleHtmlPreview() {
-  const articleEl = document.getElementById("outArticle");
-  if (!articleEl) return;
-
-  articleEl.classList.remove("exportCanvasMode");
-  drawArticleHtmlPreview(articleEl.dataset.rawText || "");
-}
-
-
 function renderArticleText(text) {
   const articleEl = document.getElementById("outArticle");
   const safeText = text || "記事本文が入ります。";
-  if (articleEl) articleEl.dataset.rawText = safeText;
-
-  // 編集画面では、読みやすいHTML縦書き文字で表示
-  drawArticleHtmlPreview(safeText);
+  articleEl.dataset.rawText = safeText;
+  drawArticleCanvas();
 }
 
 function normalizeArticleText(text) {
@@ -1728,10 +1271,10 @@ function drawArticleCanvas() {
   const chars = prepareArticleCharsWithIndent(rawText);
 
   const cssW = articleEl.clientWidth || 450;
-  const cssH = articleEl.clientHeight || 176;
+  const cssH = 176;
   // 高解像度化（印刷・PDF向け）
   // 保存時は window.articleExportRatio を上げて、記事文字を超高解像度で再描画する
-  const ratio = Math.max(window.articleExportRatio || 0, window.devicePixelRatio || 1, 4);
+  const ratio = Math.max(window.articleExportRatio || 0, window.devicePixelRatio || 1, 8);
 
   canvas.width = Math.round(cssW * ratio);
   canvas.height = Math.round(cssH * ratio);
@@ -1739,6 +1282,8 @@ function drawArticleCanvas() {
   canvas.style.height = cssH + "px";
 
   const ctx = canvas.getContext("2d");
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
   ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
   ctx.clearRect(0, 0, cssW, cssH);
   ctx.fillStyle = "#111";
@@ -1886,12 +1431,7 @@ function drawArticleCanvas() {
 }
 
 function fitArticleText() {
-  const articleEl = document.getElementById("outArticle");
-  if (articleEl && articleEl.classList.contains("exportCanvasMode")) {
-    if (typeof drawArticleCanvas === "function") drawArticleCanvas();
-    return;
-  }
-  drawArticleHtmlPreview(articleEl ? articleEl.dataset.rawText : "");
+  drawArticleCanvas();
 }
 
 function updateTextCounts() {
@@ -2090,8 +1630,54 @@ function addArticleHint() {
   const textarea = document.getElementById("editArticle");
   const current = textarea.value.trim();
   const addText = " 家族みんなが見守る中、一生懸命な姿に大きな拍手が送られました。小さな成長が、忘れられない思い出になりました。";
-  textarea.value = current.length < 60 ? current + addText : current + " この日の出来事は、生徒たちにとって大切な記念になりました。";
+  textarea.value = current.length < 60 ? current + addText : current + " この日の経験と思い出は、生徒たちにとって大切な記念になりました。";
   updatePreviewText();
+}
+
+
+function reselectPhoto() {
+  const input = document.getElementById("photoInput");
+  if (!input) return;
+
+  // 同じ写真を選び直してもchangeが発火するようにする
+  input.value = "";
+  input.click();
+}
+
+function removePhoto() {
+  photoData = "";
+
+  if (typeof photoObjectUrl !== "undefined" && photoObjectUrl) {
+    URL.revokeObjectURL(photoObjectUrl);
+    photoObjectUrl = "";
+  }
+
+  const photo = document.getElementById("previewPhoto");
+  if (photo) {
+    photo.removeAttribute("src");
+  }
+
+  const input = document.getElementById("photoInput");
+  if (input) {
+    input.value = "";
+  }
+
+  const guide = document.getElementById("photoGuide");
+  if (guide) {
+    guide.style.display = "block";
+  }
+
+  const status = document.getElementById("photoStatus");
+  if (status) {
+    status.innerText = "写真を削除しました。必要ならもう一度選んでください。";
+  }
+
+  const editStatus = document.getElementById("editPhotoStatus");
+  if (editStatus) {
+    editStatus.innerText = "写真を削除しました。";
+  }
+
+  resetPhotoPosition();
 }
 
 function resetPhotoPosition() {
@@ -2213,7 +1799,6 @@ function restorePreviewArticleResolution() {
 
 
 function saveAsImage() {
-  switchArticleToCanvasForExport();
   fitArticleText();
   prepareHighResArticleForExport();
   hideGuide();
@@ -2221,7 +1806,6 @@ function saveAsImage() {
   .then(canvas => {
     showGuide();
     restorePreviewArticleResolution();
-    restoreArticleHtmlPreview();
     const link = document.createElement("a");
     link.download = "chugoku-my-kinen-shinbun.png";
     link.href = canvas.toDataURL("image/png");
@@ -2235,7 +1819,7 @@ function saveAsImage() {
 
 
 function saveAsPDF() {
-  switchArticleToCanvasForExport();
+  prepareHighResArticleForExport();
   fitArticleText();
   prepareHighResArticleForExport();
   hideGuide();
