@@ -211,7 +211,7 @@ button { border: none; background: #111; color: #fff; font-weight: bold; cursor:
 }
 .article {
   width: 100%;
-  height: 176px;
+  height: 230px;
   overflow: hidden;
   padding: 0;
   position: relative;
@@ -227,7 +227,7 @@ button { border: none; background: #111; color: #fff; font-weight: bold; cursor:
 
 #articleCanvas {
   width: 100%;
-  height: 176px;
+  height: 230px;
   display: block;
   background: #fff;
 }
@@ -665,6 +665,92 @@ canvas {
   display: none !important;
 }
 
+
+/* ===== 完成版固定：記事欄大型化・長押し移動・文字量警告 ===== */
+.article {
+  height: 230px !important;
+}
+
+#articleCanvas {
+  height: 230px !important;
+}
+
+.bottomAd {
+  margin-top: 10px !important;
+  min-height: 62px;
+}
+
+.articleLengthNotice {
+  width: calc(100% - 24px);
+  margin: 8px 12px 12px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  background: #eef7ff;
+  border-left: 5px solid #2a8fd6;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.7;
+  font-weight: 700;
+}
+
+.articleLengthNotice.warn {
+  background: #fff3cd;
+  border-left-color: #e7a900;
+  color: #7a5200;
+}
+
+.articleLengthNotice.danger {
+  background: #ffe4e4;
+  border-left-color: #c00000;
+  color: #c00000;
+}
+
+.controlGrid button,
+.photoEditButtons button {
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.controlGrid button:active {
+  transform: scale(0.97);
+  opacity: 0.82;
+}
+
+#newspaper {
+  overflow: hidden !important;
+}
+
+.paper-grid {
+  grid-template-columns: minmax(0, 1fr) 112px !important;
+  overflow: hidden !important;
+}
+
+.main {
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+.side {
+  width: 112px !important;
+  min-width: 112px !important;
+  max-width: 112px !important;
+  overflow: hidden !important;
+}
+
+.articleBox,
+.article,
+#articleCanvas {
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+
+/* ===== 記事ヒント重複防止 ===== */
+.articleLengthNotice.warn,
+.articleLengthNotice.danger {
+  display: none !important;
+}
+
 </style>
 </head>
 <body>
@@ -732,7 +818,7 @@ canvas {
 <div id="editorColumn"><div class="editPanel" id="editPanel">
 <h2>編集する</h2>
 <div class="miniHelp">
-    必要な項目だけ開いて編集できます。
+    必要な項目だけ開いて編集できます。記事欄は読みやすく大きめにし、文字量に応じて自動調整します。
   </div>
 <details class="editSection" open="">
 <summary>サブ題字</summary>
@@ -751,7 +837,8 @@ canvas {
 <summary>記事</summary>
 <label for="editArticle"></label>
 <textarea id="editArticle" oninput="updatePreviewText()" placeholder="記事本文を入力"></textarea>
-<div class="countLine" id="articleCount">目安：80〜160文字くらい。改行ごとに段落頭が一字下がります。</div>
+<div class="countLine" id="articleCount">目安：100〜260文字くらい。改行ごとに段落頭が一字下がります。</div>
+<div class="articleLengthNotice" id="articleLengthNotice">記事の文字量に合わせて、広くなった記事欄の中で読みやすく自動調整します。</div>
 <button onclick="addArticleHint()">記事ヒントを追加</button>
 </details>
 <details class="editSection">
@@ -766,17 +853,17 @@ canvas {
 <div class="photoEditButtons">
   <button type="button" onclick="reselectPhoto()">写真を選び直す</button>
 </div>
-<div class="photoEditStatus" id="editPhotoStatus">写真を変更したい時は「写真を選び直す」を押してください。下のボタンで位置を調整できます。</div>
+<div class="photoEditStatus" id="editPhotoStatus">写真を変更したい時は「写真を選び直す」を押してください。下のボタンで位置を調整できます。ボタンは長押しできます。</div>
 
 <div class="controlGrid">
-<button onclick="nudgePhoto(0,-10)">↑</button>
-<button onclick="changeScale(1.05)">拡大</button>
-<button onclick="rotatePhoto(-3)">左回転</button>
-<button onclick="rotatePhoto(3)">右回転</button>
-<button onclick="nudgePhoto(-10,0)">←</button>
-<button onclick="nudgePhoto(0,10)">↓</button>
-<button onclick="nudgePhoto(10,0)">→</button>
-<button onclick="changeScale(0.95)">縮小</button>
+<button type="button" data-hold-action="nudge" data-hold-a="0" data-hold-b="-10" onclick="nudgePhoto(0,-10)">↑</button>
+<button type="button" data-hold-action="scale" data-hold-a="1.05" onclick="changeScale(1.05)">拡大</button>
+<button type="button" data-hold-action="rotate" data-hold-a="-3" onclick="rotatePhoto(-3)">左回転</button>
+<button type="button" data-hold-action="rotate" data-hold-a="3" onclick="rotatePhoto(3)">右回転</button>
+<button type="button" data-hold-action="nudge" data-hold-a="-10" data-hold-b="0" onclick="nudgePhoto(-10,0)">←</button>
+<button type="button" data-hold-action="nudge" data-hold-a="0" data-hold-b="10" onclick="nudgePhoto(0,10)">↓</button>
+<button type="button" data-hold-action="nudge" data-hold-a="10" data-hold-b="0" onclick="nudgePhoto(10,0)">→</button>
+<button type="button" data-hold-action="scale" data-hold-a="0.95" onclick="changeScale(0.95)">縮小</button>
 </div>
 <button class="backBtn" onclick="resetPhotoPosition()">写真位置をリセット</button>
 </details>
@@ -821,7 +908,66 @@ canvas {
 </div>
 </div><p class="previewEditNotice" id="previewEditNotice">「編集する」を開いて修正すると、紙面にすぐ反映されます。</p></div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js">
+let photoPressTimer = null;
+let photoPressInterval = null;
+
+function startPhotoHold(actionName, a, b) {
+  stopPhotoHold();
+
+  const run = () => {
+    if (actionName === "nudge") {
+      nudgePhoto(a, b);
+    } else if (actionName === "scale") {
+      changeScale(a);
+    } else if (actionName === "rotate") {
+      rotatePhoto(a);
+    }
+  };
+
+  run();
+
+  photoPressTimer = setTimeout(() => {
+    photoPressInterval = setInterval(run, 70);
+  }, 280);
+}
+
+function stopPhotoHold() {
+  if (photoPressTimer) {
+    clearTimeout(photoPressTimer);
+    photoPressTimer = null;
+  }
+
+  if (photoPressInterval) {
+    clearInterval(photoPressInterval);
+    photoPressInterval = null;
+  }
+}
+
+function setupPhotoHoldButtons() {
+  const buttons = document.querySelectorAll("[data-hold-action]");
+  buttons.forEach(btn => {
+    if (btn.dataset.holdReady === "1") return;
+    btn.dataset.holdReady = "1";
+
+    const action = btn.dataset.holdAction;
+    const a = Number(btn.dataset.holdA || 0);
+    const b = Number(btn.dataset.holdB || 0);
+
+    btn.addEventListener("pointerdown", e => {
+      e.preventDefault();
+      startPhotoHold(action, a, b);
+    });
+
+    btn.addEventListener("pointerup", stopPhotoHold);
+    btn.addEventListener("pointerleave", stopPhotoHold);
+    btn.addEventListener("pointercancel", stopPhotoHold);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", setupPhotoHoldButtons);
+
+</script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 <script>
 let photoData = "";
@@ -1084,11 +1230,40 @@ function makeNewspaper() {
 
   document.querySelectorAll(".step").forEach(step => step.classList.remove("active"));
   showWorkspace();
+  updateArticleLengthNotice(document.getElementById("editArticle") ? document.getElementById("editArticle").value : "");
   const previewNotice = document.getElementById("previewEditNotice");
   if (previewNotice) previewNotice.style.display = "block";
   setTimeout(() => photoFrame.focus(), 300);
   window.scrollTo({ top: document.getElementById("workspace").offsetTop, behavior: "smooth" });
 }
+
+
+
+
+function updateArticleLengthNotice(text) {
+  const notice = document.getElementById("articleLengthNotice");
+  if (!notice) return;
+
+  const len = String(text || "").replace(/\s/g, "").length;
+  notice.classList.remove("warn", "danger");
+
+  if (len <= 0) {
+    notice.textContent = "記事を入力すると、文字量に合わせて紙面の文字サイズと間隔を自動調整します。";
+  } else if (len <= 150) {
+    notice.textContent = "現在 " + len + "文字：読みやすい大きさで表示できます。";
+  } else if (len <= 240) {
+    notice.classList.add("warn");
+    notice.textContent = "現在 " + len + "文字：紙面に収まるよう、文字サイズと間隔を自然に調整します。";
+  } else if (len <= 300) {
+    notice.classList.add("warn");
+    notice.textContent = "現在 " + len + "文字：長めです。文字サイズと間隔を詰めて表示します。";
+  } else {
+    notice.classList.add("danger");
+    notice.textContent = "現在 " + len + "文字：かなり長いです。全文が入らない場合は短くしてください。";
+  }
+}
+
+
 
 function updatePreviewText() {
   const sublogo = document.getElementById("editSublogo").value.trim() || "My記念新聞";
@@ -1102,6 +1277,7 @@ function updatePreviewText() {
   setSublogoText(sublogo);
   document.getElementById("outHeadline").innerText = headline;
   renderArticleText(article);
+  updateArticleLengthNotice(article);
   document.getElementById("outDate").innerText = sideDate;
   document.getElementById("topDate").innerText = topDate + "　特別号";
   document.getElementById("outReporter").innerText = reporter;
@@ -1260,175 +1436,255 @@ function drawVerticalPunctuation(ctx, ch, x, y, fontSize) {
 }
 
 
+
+
+
 function drawArticleCanvas() {
   const articleEl = document.getElementById("outArticle");
   const canvas = document.getElementById("articleCanvas");
-  const countEl = document.getElementById("articleCount");
-  if (!articleEl || !canvas || !countEl) return;
+  if (!articleEl || !canvas) return;
 
-  const rawText = normalizeArticleText(articleEl.dataset.rawText || "");
-  const textLength = rawText.replace(/\s/g, "").length;
-  const chars = prepareArticleCharsWithIndent(rawText);
+  const text = articleEl.dataset.rawText || "記事本文が入ります。";
 
-  const cssW = articleEl.clientWidth || 450;
-  const cssH = 176;
-  // 高解像度化（印刷・PDF向け）
-  // 保存時は window.articleExportRatio を上げて、記事文字を超高解像度で再描画する
+  const cssW = articleEl.clientWidth || 460;
+  const cssH = articleEl.clientHeight || 230;
   const ratio = Math.max(window.articleExportRatio || 0, window.devicePixelRatio || 1, 8);
 
-  canvas.width = Math.round(cssW * ratio);
-  canvas.height = Math.round(cssH * ratio);
+  canvas.width = Math.floor(cssW * ratio);
+  canvas.height = Math.floor(cssH * ratio);
   canvas.style.width = cssW + "px";
   canvas.style.height = cssH + "px";
 
   const ctx = canvas.getContext("2d");
-  ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = "high";
   ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
   ctx.clearRect(0, 0, cssW, cssH);
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, cssW, cssH);
+
+  const chars = Array.from(
+    String(text || "")
+      .replace(/\r\n/g, "\n")
+      .replace(/\r/g, "\n")
+  ).map(ch => /[ー－―ｰ〜～]/.test(ch) ? "｜" : ch);
+
+  const visibleChars = chars.filter(ch => ch !== "\n" && ch !== " " && ch !== "　" && ch !== "\t");
+  const visibleLen = visibleChars.length;
+
+  const isDigit = ch => /^[0-9０-９]$/.test(ch || "");
+  const isPunctuation = ch => /[、。，．,.]/.test(ch || "");
+  const toHalf = str => String(str || "").replace(/[０-９]/g, s =>
+    String.fromCharCode(s.charCodeAt(0) - 65248)
+  );
+
+  function countNeededCells(sourceChars) {
+    let cells = 0;
+    let paragraphStart = true;
+
+    for (let i = 0; i < sourceChars.length; i++) {
+      const ch = sourceChars[i];
+
+      if (ch === "\n") {
+        paragraphStart = true;
+        continue;
+      }
+
+      if (ch === " " || ch === "　" || ch === "\t") continue;
+
+      if (paragraphStart) {
+        cells += 1;
+        paragraphStart = false;
+      }
+
+      const prev = sourceChars[i - 1];
+      const next = sourceChars[i + 1];
+      const afterNext = sourceChars[i + 2];
+
+      if (isDigit(ch) && isDigit(next) && !isDigit(prev) && !isDigit(afterNext)) {
+        cells += 1;
+        i += 1;
+      } else {
+        cells += 1;
+      }
+    }
+
+    return cells;
+  }
+
+  const neededCells = countNeededCells(chars);
+
+  const padX = 10;
+  const padY = 10;
+
+  const candidates = [
+    { size: 32, lineGapRate: 0.30, colGapRate: 0.44 },
+    { size: 30, lineGapRate: 0.27, colGapRate: 0.40 },
+    { size: 28, lineGapRate: 0.23, colGapRate: 0.36 },
+    { size: 26, lineGapRate: 0.18, colGapRate: 0.30 },
+    { size: 24, lineGapRate: 0.13, colGapRate: 0.24 },
+    { size: 22, lineGapRate: 0.08, colGapRate: 0.18 },
+    { size: 20, lineGapRate: 0.04, colGapRate: 0.12 },
+    { size: 18, lineGapRate: 0.00, colGapRate: 0.08 },
+    { size: 16, lineGapRate: 0.00, colGapRate: 0.04 },
+    { size: 14, lineGapRate: 0.00, colGapRate: 0.00 }
+  ];
+
+  function metrics(c) {
+    const lineGap = Math.round(c.size * c.lineGapRate);
+    const colGap = Math.round(c.size * c.colGapRate);
+    const lineHeight = c.size + lineGap;
+    const colWidth = c.size + colGap;
+    const rows = Math.max(1, Math.floor((cssH - padY * 2) / lineHeight));
+    const cols = Math.max(1, Math.floor((cssW - padX * 2) / colWidth));
+    return { ...c, lineGap, colGap, lineHeight, colWidth, rows, cols, capacity: rows * cols };
+  }
+
+  let selected = metrics(candidates[candidates.length - 1]);
+
+  for (const c of candidates) {
+    const m = metrics(c);
+    if (neededCells <= m.capacity) {
+      selected = m;
+      break;
+    }
+  }
+
+  const fontSize = selected.size;
+
   ctx.fillStyle = "#111";
+  ctx.font = "700 " + fontSize + 'px "Hiragino Mincho ProN", "Yu Mincho", "MS Mincho", serif';
   ctx.textAlign = "center";
   ctx.textBaseline = "top";
 
-  const padX = 8;
-  const padY = 7;
-  const maxW = cssW - padX * 2;
-  const maxH = cssH - padY * 2;
-
-  let fontSize = 15;
-  let lineGap = 4;
-  let colGap = 10;
-  let modeText = "";
-
-  if (textLength < 35) {
-    fontSize = 23;
-    lineGap = 8;
-    colGap = 18;
-    modeText = "短い記事なので、文字を大きく中央寄せで配置しています。";
-  } else if (textLength < 60) {
-    fontSize = 20;
-    lineGap = 6;
-    colGap = 15;
-    modeText = "短めの記事なので、余白が目立たないよう大きめに配置しています。";
-  } else if (textLength < 100) {
-    fontSize = 17;
-    lineGap = 4;
-    colGap = 12;
-    modeText = "読みやすい縦書き配置にしています。";
-  } else if (textLength < 150) {
-    fontSize = 14;
-    lineGap = 3;
-    colGap = 9;
-    modeText = "新聞紙面に入りやすい長さです。";
-  } else if (textLength < 210) {
-    fontSize = 12;
-    lineGap = 2;
-    colGap = 7;
-    modeText = "長めなので、文字サイズと列間を自動調整しています。";
-  } else if (textLength < 280) {
-    fontSize = 10;
-    lineGap = 1;
-    colGap = 5;
-    modeText = "かなり長めなので、全文が入るよう小さめに調整しています。";
-  } else {
-    fontSize = 9;
-    lineGap = 0;
-    colGap = 3;
-    modeText = "かなり長めなので、限界まで自動縮小しています。";
-  }
-
-  let m = measureVerticalArticle(chars, fontSize, lineGap, colGap, maxH);
-  while (m.needW > maxW && fontSize > 7) {
-    fontSize -= 0.5;
-    lineGap = Math.max(0, lineGap - 0.3);
-    colGap = Math.max(2, colGap - 0.5);
-    m = measureVerticalArticle(chars, fontSize, lineGap, colGap, maxH);
-  }
-
-  const stillOverflow = m.needW > maxW;
-  ctx.font = '700 ' + fontSize + 'px "Hiragino Mincho ProN", "Yu Mincho", "MS Mincho", serif';
-
-  const usedW = Math.min(m.needW, maxW);
-  let startX;
-  if (textLength < 75) {
-    startX = padX + (maxW + usedW) / 2 - fontSize / 2;
-  } else {
-    startX = cssW - padX - fontSize / 2;
-  }
-
   let col = 0;
   let row = 0;
+  let paragraphStart = true;
 
-  for (let i = 0; i < chars.length; i++) {
-    let ch = chars[i];
+  const startX = cssW - padX - fontSize / 2;
+  const startY = padY;
 
-    if (ch === "\n") {
-      col += 1;
+  function hasRoom() {
+    return col < selected.cols;
+  }
+
+  function nextCell() {
+    row += 1;
+    if (row >= selected.rows) {
       row = 0;
-      continue;
-    }
-
-    // 段落頭の一字下げ：1文字分だけ空ける
-    if (ch === "__INDENT__") {
-      if (row >= m.charsPerCol) {
-        col += 1;
-        row = 0;
-      }
-      row += 1;
-      continue;
-    }
-
-    if (row >= m.charsPerCol) {
       col += 1;
-      row = 0;
     }
+  }
 
-    const x = startX - col * (fontSize + colGap);
-    const y = padY + row * m.lineHeight;
+  function drawOneCell(ch) {
+    if (!hasRoom()) return false;
 
-    if (x < padX - fontSize) break;
+    const x = startX - col * selected.colWidth;
+    const y = startY + row * selected.lineHeight;
 
-    // 縦中横：2桁数字だけ横向きで1マスに描く
-    // 例：12日、５０回。3桁以上の2025などは対象外
-    if (shouldDrawTwoDigitHorizontal(chars, i)) {
-      drawTwoDigitHorizontal(ctx, chars, i, x, y, fontSize);
-      i++;
-      row += 1;
-      continue;
-    }
+    if (x < padX) return false;
 
-    // 縦書き用：長音「ー」などを縦棒に置換して表示
-    ch = normalizeVerticalChar(ch);
-
-    if (getVerticalPunctuation(ch)) {
-      drawVerticalPunctuation(ctx, ch, x, y, fontSize);
-    } else if ("」』）】".includes(ch)) {
-      // 閉じ括弧類は少し上寄せ
-      ctx.fillText(ch, x + fontSize * 0.04, y - fontSize * 0.10);
-    } else if (/[A-Za-z0-9]/.test(ch)) {
+    if (isPunctuation(ch)) {
+      // 縦書き新聞風：句読点は1マス内の右上。
+      // xは列中央なので、右へ寄せるためにプラス補正。
+      // yはマス上端なので、さらに少し上へ寄せる。
       ctx.save();
-      ctx.translate(x, y);
-      ctx.rotate(Math.PI / 2);
-      ctx.fillText(ch, 0, -fontSize * 0.45);
+      ctx.font = "700 " + Math.round(fontSize * 0.72) + 'px "Hiragino Mincho ProN", "Yu Mincho", "MS Mincho", serif';
+      ctx.textAlign = "center";
+      ctx.textBaseline = "top";
+      ctx.fillText(
+        ch,
+        x + fontSize * 0.46,
+        y - fontSize * 0.32
+      );
       ctx.restore();
     } else {
       ctx.fillText(ch, x, y);
     }
 
-    row += 1;
+    nextCell();
+    return true;
   }
 
-  const sizeText = Math.round(fontSize * 10) / 10;
+  let truncated = false;
 
-  if (stillOverflow) {
-    countEl.innerHTML =
-      '<span class="strongWarn">現在 ' + textLength +
-      '文字：右から左の縦書きで自動配置しても入りきらない可能性があります。少し短くしてください。</span>';
-  } else {
-    countEl.innerHTML =
-      '現在 ' + textLength + '文字：' + modeText + ' 文字サイズ：約' + sizeText + 'px';
+  for (let i = 0; i < chars.length; i++) {
+    let ch = chars[i];
+
+    if (ch === "\n") {
+      if (row !== 0) {
+        row = 0;
+        col += 1;
+      }
+      paragraphStart = true;
+      if (!hasRoom()) {
+        truncated = true;
+        break;
+      }
+      continue;
+    }
+
+    if (ch === " " || ch === "　" || ch === "\t") continue;
+
+    if (paragraphStart) {
+      if (!drawOneCell("　")) {
+        truncated = true;
+        break;
+      }
+      paragraphStart = false;
+    }
+
+    const prev = chars[i - 1];
+    const next = chars[i + 1];
+    const afterNext = chars[i + 2];
+
+    if (isDigit(ch) && isDigit(next) && !isDigit(prev) && !isDigit(afterNext)) {
+      if (!hasRoom()) {
+        truncated = true;
+        break;
+      }
+
+      const x = startX - col * selected.colWidth;
+      const y = startY + row * selected.lineHeight;
+
+      ctx.save();
+      ctx.font = "700 " + Math.round(fontSize * 0.70) + 'px "Hiragino Mincho ProN", "Yu Mincho", serif';
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(toHalf(ch + next), x, y + fontSize * 0.54);
+      ctx.restore();
+
+      i += 1;
+      nextCell();
+      continue;
+    }
+
+    if (!drawOneCell(ch)) {
+      truncated = true;
+      break;
+    }
+  }
+
+  const countEl = document.getElementById("articleCount");
+  if (countEl) {
+    if (truncated || neededCells > selected.capacity) {
+      countEl.innerHTML = '<span class="strongWarn">現在 ' + visibleLen + '文字：長すぎるため全文が入りきりません。少し短くしてください。</span>';
+    } else if (visibleLen <= 150) {
+      countEl.textContent = "現在 " + visibleLen + "文字：読みやすい大きさで表示しています。";
+    } else if (visibleLen <= 240) {
+      countEl.textContent = "現在 " + visibleLen + "文字：文字サイズ・間隔・句読点位置を新聞風に自動調整しています。";
+    } else if (visibleLen <= 300) {
+      countEl.innerHTML = '<span class="warn">現在 ' + visibleLen + '文字：長めなので、文字サイズと間隔を詰めています。</span>';
+    } else {
+      countEl.innerHTML = '<span class="strongWarn">現在 ' + visibleLen + '文字：かなり長いため読みにくくなります。少し短くしてください。</span>';
+    }
+  }
+
+  if (typeof updateArticleLengthNotice === "function") {
+    updateArticleLengthNotice(text);
   }
 }
+
+
+
 
 function fitArticleText() {
   drawArticleCanvas();
@@ -1783,7 +2039,7 @@ function showGuide() {
 
 function prepareHighResArticleForExport() {
   // 記事欄だけ、保存直前に超高解像度で再描画する
-  window.articleExportRatio = 10;
+  window.articleExportRatio = 18;
   if (typeof drawArticleCanvas === "function") {
     drawArticleCanvas();
   }
